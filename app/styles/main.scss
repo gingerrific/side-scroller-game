@@ -1,31 +1,32 @@
 // bower:scss
 // endbower
 
+*, *:before, *:after {
+  -moz-box-sizing: border-box; 
+  -webkit-box-sizing: border-box; 
+  box-sizing: border-box;
+}
+
 body {
     background: #fafafa;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     color: #333;
 }
 
-.hero-unit {
-    margin: 50px auto 0 auto;
-    width: 300px;
-    font-size: 18px;
-    font-weight: 200;
-    line-height: 30px;
-    background-color: #eee;
-    border-radius: 6px;
-    padding: 60px;
-    h1 {
-        font-size: 60px;
-        line-height: 1;
-        letter-spacing: -1px;
-    }
-}
+.display-container {
+    width: 40em;
+    min-height: 40em;
+    margin: 2em auto;
+    border: 1px solid black;
+    position: relative;
 
-.browsehappy {
-    margin: 0.2em 0;
-    background: #ccc;
-    color: #000;
-    padding: 0.2em 0;
+    & .character {
+        height: 5em;
+        width: 5em;
+        position: absolute;
+        left: 5em;
+        bottom: 5em;
+        background: #4d4dff;
+
+    }
 }
