@@ -70,4 +70,4 @@ $(window).keydown( function (key) {
 			}
 		}
 	}
-}
+});
