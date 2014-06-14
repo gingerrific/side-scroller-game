@@ -14,26 +14,33 @@ body {
 }
 
 .display-container {
-    width: 40em;
+    width: 70em;
     min-height: 40em;
     margin: 2em auto;
     border: 1px solid black;
     position: relative;
 
     & .character {
-        height: 5em;
-        width: 5em;
+        height: 4em;
+        width: 4em;
         position: absolute;
         left: 5em;
         bottom: 5em;
         background: rgba(255,255,255,0);
 
+        transition: all .2s ease-out;
     }
 }
 
 ////////////////////////////////////////////////////////////
 ////////////////////////////////// SPRITE / SPRITE ANIMATION
 ////////////////////////////////////////////////////////////
+.sprite {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+}
+
 .sprite-stand-forward {
     width: 190px;
     height: 215px;
@@ -44,6 +51,16 @@ body {
     @extend .sprite-stand-forward;
 
     background-image: url('../images/mm-sprite-stand-backward.png');
+}
+
+.sprite-jump-forward {
+    @extend .sprite-stand-forward;
+    background-image: url('../images/mm-sprite-jump-forward.png');
+}
+
+.sprite-jump-backward {
+    @extend .sprite-stand-forward;
+    background-image: url('../images/mm-sprite-jump-backward.png');
 }
 
 .sprite-run-forward {
@@ -59,8 +76,8 @@ body {
 }
 
 .sprite-animate {
-    -webkit-animation: sprite-animate .8s steps(4) infinite;
-            animation: sprite-animate .8s steps(4) infinite;
+    -webkit-animation: sprite-animate .6s steps(4) infinite;
+            animation: sprite-animate .6s steps(4) infinite;
 }
 
 @-webkit-keyframes sprite-animate {
