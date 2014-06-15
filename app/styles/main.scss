@@ -1,3 +1,9 @@
+@import 'variables';
+
+////////////////////////////////////////////////////////////
+///////////////////////////////////////////// BOWER DEFAULTS
+////////////////////////////////////////////////////////////
+
 // bower:scss
 // endbower
 
@@ -7,12 +13,18 @@
   box-sizing: border-box;
 }
 
+////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////// TAGS
+////////////////////////////////////////////////////////////
 body {
     background: #fafafa;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     color: #333;
 }
 
+////////////////////////////////////////////////////////////
+///////////////////////////////////////////////// CONTAINERS
+////////////////////////////////////////////////////////////
 .display-container {
     width: 70em;
     min-height: 40em;
@@ -29,6 +41,29 @@ body {
         background: rgba(255,255,255,0);
 
         transition: all .2s ease-out;
+    }
+}
+
+.background {
+    height: 40em;
+    background: url('../images/background-gray-wash.png') repeat-x;
+}
+
+.platform {
+    height: 30px;
+    background: $colorBurntOrange url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAJCAYAAADgkQYQAAAAPklEQVQYV2NkIAIwElJz/Ojx/3gVzZs3739SUhIjQZNANmFVBLLC0toSLoehCGYFsltJsw7dCgyTsFmBrAgA8ywXXDKrdWYAAAAASUVORK5CYII=);
+    border: 2px solid $colorStoneGray;
+    position: absolute;
+    -webkit-animation: platform-animate 7s linear forwards;
+            animation: platform-animate 7s linear forwards;
+}
+
+@keyframes platform-animate {
+    from {
+        right: -50px;
+    }
+    to {
+        right: 1000px;
     }
 }
 
