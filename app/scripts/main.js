@@ -4,29 +4,22 @@
 ////////////////////////////////////////////// INITIALIZE UI
 ////////////////////////////////////////////////////////////
 $(document).ready(function() {
-	// $('.background').pan({fps: 5, speed: 3, dir: 'right', depth: 50});
-	// $('.background').spRelSpeed(5);
+	$('.background').pan({fps: 20, speed: 3, dir: 'right', depth: 50});
+	$('.background').spRelSpeed(5);
 
-	loadPlatforms();
+	startPlatformLoad();
 });
 
 ////////////////////////////////////////////////////////////
 ///////////////////////////////////////////// INITIALIZE APP
 ////////////////////////////////////////////////////////////
-var platformCollection = new PlatformCollection();
 var numDelayMilliseconds = 3000;
 var numIntervalID = 0;
-var numLivePlatforms = 0;
 
-function loadPlatforms() {
-	platformCollection.fetch().done(function() {
-		numIntervalID = setInterval(function() {
-			var objPlatformModel = platformCollection.add({});
-			objPlatformModel.save();
-
-			new PlatformView({model: objPlatformModel});
-		}, numDelayMilliseconds);
-	});
+function startPlatformLoad() {
+	numIntervalID = setInterval(function() {
+		new PlatformView({model: new PlatformModel()});
+	}, numDelayMilliseconds);
 }
 
 function stopPlatformLoad() {

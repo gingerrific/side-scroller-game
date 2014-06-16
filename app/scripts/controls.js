@@ -1,12 +1,12 @@
 var sprite = {
-	xCoord:0, yCoord: 0, 
-	vX: 0, vY: 0, 
+	xCoord:0, yCoord: 0,
+	vX: 0, vY: 0,
 	direction: 'right',
 	mass: 60, //kg
 	restitution: -0.3
 };
 
-var frameRate = 1/40; // Seconds
+var frameRate = 1/20; // Seconds
 var frameDelay = frameRate * 1000; // ms
 var loopTimer = false;
 
@@ -25,10 +25,10 @@ var loop = function () {
 	// Drag force: Fd = -1/2 * Cd * A * rho * v * v
 	var Fx = -0.5 * Cd * A * rho * sprite.vX * sprite.vX * (sprite.vX / Math.abs(sprite.vX));
 	var Fy = -0.5 * Cd * A * rho * sprite.vY * sprite.vY * (sprite.vY / Math.abs(sprite.vY));
-			
+
 	Fx = (isNaN(Fx) ? 0 : Fx);
 	Fy = (isNaN(Fy) ? 0 : Fy);
-			
+
 	// Calculate acceleration ( F = ma )
 	var ax = Fx / sprite.mass;
 	var ay = ag + (Fy / sprite.mass);
@@ -36,7 +36,7 @@ var loop = function () {
 	// Integrate to get velocity
 	sprite.vX += ax*frameRate;
 	sprite.vY += ay*frameRate;
-			
+
 	// Integrate to get position
 	sprite.xCoord += sprite.vX*frameRate*100;
 	$('.sprite').css({'left': sprite.xCoord+'em'});
@@ -44,7 +44,7 @@ var loop = function () {
 
 	if (sprite.yCoord <= 0) {
 		$('.sprite').css({'bottom': -sprite.yCoord+'em'});
-		
+
 	}
 	else {
 		sprite.yCoord = 0
