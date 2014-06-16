@@ -1,9 +1,15 @@
+var platformPlace = [0, 7.8125, 14.3135];
+
+////// the good one
 var sprite = {
-	xCoord:0, yCoord: 0, 
+	xCoord:0, yCoord: 0, // xcoord = left side // ycoord = bottom
+	xCoordRight: 11.875, // xcoordRight = right side
+	yCoordTop: 13.4375,  // ycoordTop = top
 	vX: 0, vY: 0, 
 	direction: 'right',
 	mass: 60, //kg
-	restitution: -0.3
+	restitution: -0.3,
+	platform: platformPlace[0],
 };
 
 var frameRate = 1/40; // Seconds
@@ -15,7 +21,6 @@ var Cd = 1; // Dimensionless
 var rho = 1.22; // kg / m^3
 var A = 0.22; //m^2
 var ag = 3.25; // non-earth gravity
-
 
 
 
@@ -36,21 +41,71 @@ var loop = function () {
 	// Integrate to get velocity
 	sprite.vX += ax*frameRate;
 	sprite.vY += ay*frameRate;
+	
+	if (sprite.vY > -1 && sprite.vY < 1) {
+
+	}
+
+	else {
+		sprite.vY = 0;
+	}
 			
 	// Integrate to get position
-	sprite.xCoord += sprite.vX*frameRate*100;
-	$('.sprite').css({'left': sprite.xCoord+'em'});
-	sprite.yCoord += sprite.vY*frameRate*100;
+	sprite.xCoord += sprite.vX*frameRate*100; // left side
+	sprite.xCoordRight = sprite.xCoord+9.3; // right side
 
-	if (sprite.yCoord <= 0) {
-		$('.sprite').css({'bottom': -sprite.yCoord+'em'});
-		
+	$('.sprite').css({'left': sprite.xCoord+'em'});
+
+	sprite.yCoord += sprite.vY*frameRate*100;
+	sprite.yCoordTop = sprite.yCoord+13.4375;
+
+
+	if (sprite.yCoord < 0 ) {
+		console.log(sprite.yCoord)
+		$('.sprite').css({'bottom': -sprite.yCoord+sprite.platform+'em'});
+
+		//////////////////////////////////////////////////////////////
+		/// second platform //////////////////////////////////////////
+		if (sprite.yCoord === -5.5667649062403655 && sprite.xCoordRight >= 43.2875 && sprite.xCoord <= 54.7125 && sprite.platform > 0 && sprite.platform != platformPlace[2]) {
+					
+			sprite.yCoord = 0;
+			sprite.platform = platformPlace[2];
+
+			$('.sprite').css({'bottom': -sprite.yCoord+sprite.platform+'em'});
+			$('.sprite').removeClass('sprite-jump-forward');
+			$('.sprite').removeClass('sprite-jump-backward');
+		}
+
+		else if (sprite.yCoord === -7.332866231710772 && sprite.xCoord >= 48.5) {
+			sprite.yCoord = 0;
+			sprite.platform = platformPlace[1];
+
+			$('.sprite').css({'bottom': -sprite.yCoord+sprite.platform+'em'});
+			$('.sprite').removeClass('sprite-jump-forward');
+			$('.sprite').removeClass('sprite-jump-backward');
+		}
+
 	}
+
 	else {
-		sprite.yCoord = 0
-		$('.sprite').css({'bottom': sprite.yCoord+'em'});
+		sprite.yCoord = 0;
+
+		$('.sprite').css({'bottom': -sprite.yCoord+sprite.platform+'em'});
 		$('.sprite').removeClass('sprite-jump-forward');
 		$('.sprite').removeClass('sprite-jump-backward');
+
+		if (sprite.xCoordRight >= 56 && sprite.platform === 0) {
+			sprite.vX = 0;
+		}
+		else if (sprite.xCoordRight <= 56.65 && sprite.platform < 8 && sprite.platform != 0) {
+			var characterHeight = _.indexOf(platformPlace, sprite.platform);
+			sprite.platform = platformPlace[characterHeight-1];
+		}
+		else if ((sprite.xCoordRight <= 43.2875 || sprite.xCoord >= 54.7125) && sprite.platform < 15  && sprite.platform != 7.8125 && sprite.platform != 0) {
+			var characterHeight = _.indexOf(platformPlace, sprite.platform);
+			sprite.platform = platformPlace[characterHeight-1];
+		}
+
 	}
 }
 
@@ -72,9 +127,9 @@ $(window).keydown( function (key) {
 	else if (key.keyCode === 39) {
 		event.preventDefault();
 		// Filter out commands if you're at the edge of the board
-		if (sprite.xCoord <= 60) {
-				sprite.vX = 0.3;
-				sprite.direction = 'right';
+ 	if (sprite.xCoordRight <= 56 || sprite.platform > 0){
+			sprite.vX = 0.3;
+			sprite.direction = 'right';
 		}
 	}
 	// up arrow
@@ -85,6 +140,7 @@ $(window).keydown( function (key) {
 				sprite.vY = -1;
 				if (sprite.direction === 'right') {
 					$('.sprite').addClass('sprite-jump-forward');
+
 				}
 				else if (sprite.direction === 'left') {
 					$('.sprite').addClass('sprite-jump-backward');
@@ -98,6 +154,14 @@ $(window).keydown( function (key) {
 		// Filter out commands if you're at the edge of the board
 		if (sprite.yCoord == 0) {
 				sprite.vY = -1;
+
+				if (sprite.direction === 'right') {
+					$('.sprite').addClass('sprite-jump-forward');
+
+				}
+				else if (sprite.direction === 'left') {
+					$('.sprite').addClass('sprite-jump-backward');
+				}
 		}
 	}
 
@@ -114,3 +178,18 @@ $(window).keyup( function (key) {
 		sprite.vX = 0;
 	}
 });
+
+var shape = {}
+
+// coordinates are the left most position of the character/sprite. 
+// also the xCoord is currently in ems, so the right-side position will be xCoord + 11.875em (sprite width)
+// platform width: 11.875em;
+// platform x-axis start: 58em
+// platform height: 7.8125
+// display width: 70em;
+
+
+// true width is 9.3em
+// extra 1.2875 on each side
+// character right toe at box = 47.5 em
+
