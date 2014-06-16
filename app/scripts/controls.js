@@ -1,3 +1,4 @@
+
 var platformPlace = [0, 7.8125, 14.3135];
 
 ////// the good one
@@ -83,6 +84,7 @@ var loop = function () {
 			$('.sprite').css({'bottom': -sprite.yCoord+sprite.platform+'em'});
 			$('.sprite').removeClass('sprite-jump-forward');
 			$('.sprite').removeClass('sprite-jump-backward');
+
 		}
 
 	}
@@ -104,6 +106,7 @@ var loop = function () {
 		else if ((sprite.xCoordRight <= 43.2875 || sprite.xCoord >= 54.7125) && sprite.platform < 15  && sprite.platform != 7.8125 && sprite.platform != 0) {
 			var characterHeight = _.indexOf(platformPlace, sprite.platform);
 			sprite.platform = platformPlace[characterHeight-1];
+
 		}
 
 	}
@@ -130,13 +133,19 @@ $(window).keydown( function (key) {
  	if (sprite.xCoordRight <= 56 || sprite.platform > 0){
 			sprite.vX = 0.3;
 			sprite.direction = 'right';
+
+		}
+
+		else if (sprite.yCoord > 0){
+			sprite.vX = 0.3;
+			sprite.direction = 'right';
 		}
 	}
 	// up arrow
 	else if (key.keyCode === 38) {
 		event.preventDefault();
 		// Filter out commands if you're at the edge of the board
-		if (sprite.yCoord == 0) {
+		if (sprite.yCoord == 0 || sprite.yCoord == sprite.platform) {
 				sprite.vY = -1;
 				if (sprite.direction === 'right') {
 					$('.sprite').addClass('sprite-jump-forward');
@@ -179,7 +188,6 @@ $(window).keyup( function (key) {
 	}
 });
 
-var shape = {}
 
 // coordinates are the left most position of the character/sprite. 
 // also the xCoord is currently in ems, so the right-side position will be xCoord + 11.875em (sprite width)
